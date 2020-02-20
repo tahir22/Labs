@@ -20,7 +20,9 @@ namespace Lab.MVCAPP.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var list = MockDataProvider.GetCustomers();
+
+            return View(list);
         }
 
         public IActionResult Privacy()
