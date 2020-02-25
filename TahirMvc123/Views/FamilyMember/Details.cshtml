@@ -1,0 +1,43 @@
+﻿@model TahirMvc123.Models.FamilyMember
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>FamilyMember</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MemberName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MemberName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.parentid)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.parentid)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Family)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Family.FamilyName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Memberid" class="btn btn-danger btn-sm" >Edit</a> |
+    <a asp-action="Index"  class="btn btn-danger btn-sm" >Back to List</a>
+</div>

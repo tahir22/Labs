@@ -16,6 +16,11 @@ namespace TahirMvc123.Models
 
         public DbSet<Customers> Customers { get; set; }
 
+        public DbSet<Vlilage> Vlilage { get; set; }
+        public DbSet<Cast> Cast { get; set; }
+        public DbSet<Family> Family { get; set; }
+        public DbSet<FamilyMember> FamilyMember { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
