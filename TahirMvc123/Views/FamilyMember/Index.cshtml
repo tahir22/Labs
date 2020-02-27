@@ -7,6 +7,18 @@
 
 <h1>Index</h1>
 
+
+
+
+
+
+
+
+
+
+
+
+
 <p>
     <a asp-action="Create" class="btn btn-danger  btn-sm">Create New</a>
 </p>
@@ -32,47 +44,91 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MemberName)
-            </td>
-            <td title="hello">
-                @*@item?.Parent?.MemberName*@
-                @(item?.Parent?.MemberName)
-                @*@Html.DisplayFor(modelItem => item?.Parent?.MemberName)*@
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberName)
+                </td>
+                <td title="hello">
+                    @*@item?.Parent?.MemberName*@
+                    @(item?.Parent?.MemberName)
+                    @*@Html.DisplayFor(modelItem => item?.Parent?.MemberName)*@
+                </td>
 
-           
-            <td  title="@(item?.ChildrenName)">
-             
-                @(item?.ChildrenList.Count)
-               
-            </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Family.FamilyName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Memberid" class="btn btn-dark   btn-sm">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.Memberid" class="btn btn-info   btn-sm">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.Memberid" class="btn btn-danger  btn-sm">Delete</a>
-            </td>
-        </tr>
-}
+                <td data-toggle="tooltip" data-placement="top" title="@(item?.ChildrenName)">
+
+                    @(item?.ChildrenList.Count)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Family.FamilyName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark   btn-sm    ">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info   btn-sm">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger  btn-sm">Delete</a>
+
+
+                  
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <script>
     $(document).ready(function () {
         debugger
-        var t = $('#mytable').DataTable({ responsive: true});
+
+         
+ 
+        var Message = '@ViewBag.msg';
+        var msgType = '@ViewBag.type';
+        var Viewpath = "";
+        if (Message.length > 0) {
+            AlertMessage(Message, msgType, Viewpath);
+        }
+        
+
+        var t = $('#mytable').DataTable({ responsive: true });
 
 
-           //new $.fn.dataTable.FixedHeader(t);
+        //new $.fn.dataTable.FixedHeader(t);
 
     });
+ 
 
+  $(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+
+
+        function AlertMessage(Message, Messagetype, Viewpath) {
+
+        if (Messagetype == '1') {
+            swal({
+                title: "Congratulations!",
+                text: Message,
+                type: "success"
+            },
+            function () {
+                location.href = Viewpath;
+            }
+            );
+        }
+        else {
+            swal(
+                "Oops!",
+               Message,
+               "error"
+                );
+        }
+    }
+ 
 </script>

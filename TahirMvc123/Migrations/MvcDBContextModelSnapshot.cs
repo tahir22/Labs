@@ -21,7 +21,7 @@ namespace TahirMvc123.Migrations
 
             modelBuilder.Entity("TahirMvc123.Models.Cast", b =>
                 {
-                    b.Property<int>("CastId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -35,7 +35,7 @@ namespace TahirMvc123.Migrations
                     b.Property<int>("VlilageId")
                         .HasColumnType("int");
 
-                    b.HasKey("CastId");
+                    b.HasKey("Id");
 
                     b.HasIndex("VlilageId");
 
@@ -44,7 +44,7 @@ namespace TahirMvc123.Migrations
 
             modelBuilder.Entity("TahirMvc123.Models.Customers", b =>
                 {
-                    b.Property<int>("customerid")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -52,17 +52,17 @@ namespace TahirMvc123.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("profilePic")
+                    b.Property<string>("ProfilePic")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("customerid");
+                    b.HasKey("Id");
 
                     b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("TahirMvc123.Models.Family", b =>
                 {
-                    b.Property<int>("Familyid")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -76,7 +76,7 @@ namespace TahirMvc123.Migrations
                     b.Property<string>("FamilyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Familyid");
+                    b.HasKey("Id");
 
                     b.HasIndex("CastId");
 
@@ -85,7 +85,7 @@ namespace TahirMvc123.Migrations
 
             modelBuilder.Entity("TahirMvc123.Models.FamilyMember", b =>
                 {
-                    b.Property<int>("Memberid")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -96,7 +96,7 @@ namespace TahirMvc123.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Familyid")
+                    b.Property<int>("FamilyId")
                         .HasColumnType("int");
 
                     b.Property<bool>("MarriedStatus")
@@ -105,21 +105,48 @@ namespace TahirMvc123.Migrations
                     b.Property<string>("MemberName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("parentid")
+                    b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.HasKey("Memberid");
+                    b.HasKey("Id");
 
-                    b.HasIndex("Familyid");
+                    b.HasIndex("FamilyId");
 
-                    b.HasIndex("parentid");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("FamilyMember");
                 });
 
+            modelBuilder.Entity("TahirMvc123.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("TahirMvc123.Models.Vlilage", b =>
                 {
-                    b.Property<int>("VlilageId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -130,7 +157,7 @@ namespace TahirMvc123.Migrations
                     b.Property<string>("VlilageName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("VlilageId");
+                    b.HasKey("Id");
 
                     b.ToTable("Vlilage");
                 });
@@ -147,7 +174,7 @@ namespace TahirMvc123.Migrations
             modelBuilder.Entity("TahirMvc123.Models.Family", b =>
                 {
                     b.HasOne("TahirMvc123.Models.Cast", "Cast")
-                        .WithMany("Family")
+                        .WithMany("Families")
                         .HasForeignKey("CastId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -157,13 +184,13 @@ namespace TahirMvc123.Migrations
                 {
                     b.HasOne("TahirMvc123.Models.Family", "Family")
                         .WithMany("FamilyMembers")
-                        .HasForeignKey("Familyid")
+                        .HasForeignKey("FamilyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TahirMvc123.Models.FamilyMember", "Parent")
                         .WithMany("ChildrenList")
-                        .HasForeignKey("parentid");
+                        .HasForeignKey("ParentId");
                 });
 #pragma warning restore 612, 618
         }

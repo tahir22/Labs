@@ -20,6 +20,8 @@ namespace TahirMvc123.Models
         public DbSet<Cast> Cast { get; set; }
         public DbSet<Family> Family { get; set; }
         public DbSet<FamilyMember> FamilyMember { get; set; }
+        public DbSet<User> User { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

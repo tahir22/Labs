@@ -60,7 +60,7 @@ namespace TahirMvc123.Controllers
             {
 
             }
-            Vlilage villags = vDb.Vlilage.Where(x => x.VlilageId == id).FirstOrDefault();
+            Vlilage villags = vDb.Vlilage.Where(x => x.Id == id).FirstOrDefault();
             if (villags == null)
             {
 
@@ -106,7 +106,7 @@ namespace TahirMvc123.Controllers
             }
 
 
-            Vlilage village = vDb.Vlilage.Where(x => x.VlilageId == id).FirstOrDefault();
+            Vlilage village = vDb.Vlilage.Where(x => x.Id == id).FirstOrDefault();
             if (village == null)
             {
             }

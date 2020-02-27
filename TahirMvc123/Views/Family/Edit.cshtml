@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Familyid" />
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="FamilyName" class="control-label"></label>
                 <input asp-for="FamilyName" class="form-control" />
@@ -25,9 +25,9 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CastId" class="control-label"></label>
-                <select asp-for="CastId" class="form-control" asp-items="ViewBag.Familylist2 "></select>
-                <span asp-validation-for="CastId" class="text-danger"></span>
+                <label asp-for="Id" class="control-label"></label>
+                <select asp-for="Id" class="form-control" asp-items="ViewBag.Familylist2 "></select>
+                <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

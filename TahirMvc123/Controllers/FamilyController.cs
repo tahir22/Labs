@@ -39,7 +39,7 @@ namespace TahirMvc123.Controllers
             Castlist.Add(new SelectListItem() { Text = "Select", Value = "" });
             foreach (var item in Family)
             {
-                Castlist.Add(new SelectListItem() { Text = item.CastName.ToString(), Value = item.CastId.ToString() });
+                Castlist.Add(new SelectListItem() { Text = item.CastName.ToString(), Value = item.Id.ToString() });
             }
             ViewBag.Castlist = Castlist;
             return View();
@@ -72,7 +72,7 @@ namespace TahirMvc123.Controllers
 
             }
             Family fmlyss = _con.Family
-                .Include(c => c.Cast).Where(x => x.Familyid == id).FirstOrDefault();
+                .Include(c => c.Cast).Where(x => x.Id == id).FirstOrDefault();
             if (fmlyss == null)
             {
 
@@ -88,7 +88,7 @@ namespace TahirMvc123.Controllers
             Familylist2.Add(new SelectListItem() { Text = "Select", Value = "" });
             foreach (var item in family)
             {
-                Familylist2.Add(new SelectListItem() { Text = item.CastName.ToString(), Value = item.CastId.ToString() });
+                Familylist2.Add(new SelectListItem() { Text = item.CastName.ToString(), Value = item.Id.ToString() });
             }
             if (id == null)
             {
@@ -129,7 +129,7 @@ namespace TahirMvc123.Controllers
             }
 
 
-            Family family1 = _con.Family.Include(c => c.Cast).Where(x => x.Familyid == id).FirstOrDefault();
+            Family family1 = _con.Family.Include(c => c.Cast).Where(x => x.Id == id).FirstOrDefault();
             if (family1 == null)
             {
             }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
 namespace TahirMvc123.Models
 {
-    public class Customers : Entity
+    public class Entity : IEntity
     {
-        public string   Name  { get; set; }
-        public string ProfilePic { get; set; }
+        [Key]
+        public int Id { get; set; }
     }
 }

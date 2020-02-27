@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace TahirMvc123.Models
 {
-    public class FamilyMember
+    public class FamilyMember : Entity
     {
-        [Key]
-        public int Memberid { get; set; }
         public string MemberName { get; set; }
 
         [ForeignKey("Parent")]
-        public int? parentid { get; set; }
+        public int? ParentId { get; set; }
         public bool MarriedStatus { get; set; }
         public FamilyMember Parent { get; set; }
 
@@ -26,7 +24,7 @@ namespace TahirMvc123.Models
         public DateTime? Date { get; set; }
 
         public virtual ICollection<FamilyMember> ChildrenList { get; set; }
-        public int Familyid { get; set; }
+        public int FamilyId { get; set; }
         public Family Family { get; set; }
         [NotMapped]
         public string ChildrenName { get; set; }

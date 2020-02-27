@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace TahirMvc123.Models
 {
-    public class Vlilage
+    public class Vlilage : Entity
     {
-        [Key]
-        public int VlilageId { get; set; }
         public string VlilageName { get; set; }
 
         [DataType(DataType.Date)]

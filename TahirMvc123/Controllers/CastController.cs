@@ -40,7 +40,7 @@ namespace TahirMvc123.Controllers
             Villagelist.Add(new SelectListItem() { Text = "Select", Value = "" });
             foreach (var item in villagelist)
             {
-                Villagelist.Add(new SelectListItem() { Text = item.VlilageName.ToString(), Value =item.VlilageId.ToString() });
+                Villagelist.Add(new SelectListItem() { Text = item.VlilageName.ToString(), Value =item.Id.ToString() });
             }
             ViewBag.villageList = Villagelist;
             return View();
@@ -73,7 +73,7 @@ namespace TahirMvc123.Controllers
                  
             }
             Cast ccast = _con.Cast
-                .Include(c=>c.Vlilage).Where(x=>x.CastId==id).FirstOrDefault();
+                .Include(c=>c.Vlilage).Where(x=>x.Id==id).FirstOrDefault();
             if (ccast == null)
             {
                  
@@ -89,7 +89,7 @@ namespace TahirMvc123.Controllers
             Villagelist2.Add(new SelectListItem() { Text = "Select", Value = "" });
             foreach (var item in villagelist)
             {
-                Villagelist2.Add(new SelectListItem() { Text = item.VlilageName.ToString(), Value = item.VlilageId.ToString() });
+                Villagelist2.Add(new SelectListItem() { Text = item.VlilageName.ToString(), Value = item.Id.ToString() });
             }
             if (id == null)
             {
@@ -130,7 +130,7 @@ namespace TahirMvc123.Controllers
             }
 
 
-            Cast cast = _con.Cast.Include(c => c.Vlilage).Where(x => x.CastId == id).FirstOrDefault();
+            Cast cast = _con.Cast.Include(c => c.Vlilage).Where(x => x.Id == id).FirstOrDefault();
             if (cast == null)
             { 
             }
