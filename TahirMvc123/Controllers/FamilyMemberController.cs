@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -82,17 +83,40 @@ namespace TahirMvc123.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-                //cast.Date = DateTime.Now;
-                _con.FamilyMember.Add(fmlyy);
-                _con.SaveChanges();
-                TempData["msg"] = "Save successfully";
-                TempData["type"] = 1;
-                return RedirectToAction(nameof(Index));
-            }
+                try
+                { // TODO: Add insert logic here
+                  //cast.Date = DateTime.Now;
+                    _con.FamilyMember.Add(fmlyy);
+                    _con.SaveChanges();
+                    TempData["msg"] = "Save successfully";
+                    TempData["type"] = 1;
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
+
+
+                    return RedirectToAction(nameof(Index));
+                }
+
+
+
+        }
             catch
             {
-                TempData["msg"] = "Not Save  successfully ";
+
+
+            
+
+
+            TempData["msg"] = "Not Save  successfully ";
                 TempData["type"] = 0;
                 return RedirectToAction(nameof(Index));
             }
