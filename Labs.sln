@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TahirMvc123", "TahirMvc123\TahirMvc123.csproj", "{EAE547B1-A618-4B25-B43E-7390920FC3D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TahirMvc123", "TahirMvc123\TahirMvc123.csproj", "{EAE547B1-A618-4B25-B43E-7390920FC3D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labs.Shared", "Labs.Shared\Labs.Shared.csproj", "{D3F6A661-1FBB-422E-8847-25796202D51B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EAE547B1-A618-4B25-B43E-7390920FC3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE547B1-A618-4B25-B43E-7390920FC3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE547B1-A618-4B25-B43E-7390920FC3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F6A661-1FBB-422E-8847-25796202D51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F6A661-1FBB-422E-8847-25796202D51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F6A661-1FBB-422E-8847-25796202D51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F6A661-1FBB-422E-8847-25796202D51B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

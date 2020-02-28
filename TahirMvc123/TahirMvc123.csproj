@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Labs.Shared\Labs.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
