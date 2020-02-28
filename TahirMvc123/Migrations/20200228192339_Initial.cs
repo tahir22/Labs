@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TahirMvc123.Migrations
 {
-    public partial class NewUpdate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -101,10 +101,10 @@ namespace TahirMvc123.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MemberName = table.Column<string>(nullable: true),
-                    ParentId = table.Column<int>(nullable: true),
                     MarriedStatus = table.Column<bool>(nullable: false),
                     Children = table.Column<int>(nullable: true),
                     Date = table.Column<DateTime>(nullable: true),
+                    ParentId = table.Column<int>(nullable: true),
                     FamilyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

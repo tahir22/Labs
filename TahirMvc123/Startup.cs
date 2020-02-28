@@ -31,8 +31,7 @@ namespace TahirMvc123
         {
             // MSSQL server
             services.AddDbContext<MvcDBContext>(options =>
-               options.UseSqlServer(_config["ConnectionStrings:DefaultConnection"],
-               b => b.MigrationsAssembly("TahirMvc123")));
+               options.UseSqlServer(_config["ConnectionStrings:DefaultConnection"]));
 
             //// #Injection
             //services.AddTransient<IBookService, BookService>();

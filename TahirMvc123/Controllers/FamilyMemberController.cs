@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -92,31 +91,31 @@ namespace TahirMvc123.Controllers
                     TempData["type"] = 1;
                     return RedirectToAction(nameof(Index));
                 }
-                catch (DbEntityValidationException dbEx)
+                catch (Exception ex)
                 {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                        }
-                    }
+                    //foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    //{
+                    //    foreach (var validationError in validationErrors.ValidationErrors)
+                    //    {
+                    //        System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    //    }
+                    //}
 
-
+                    throw;
                     return RedirectToAction(nameof(Index));
                 }
 
 
 
-        }
+            }
             catch
             {
 
 
-            
 
 
-            TempData["msg"] = "Not Save  successfully ";
+
+                TempData["msg"] = "Not Save  successfully ";
                 TempData["type"] = 0;
                 return RedirectToAction(nameof(Index));
             }

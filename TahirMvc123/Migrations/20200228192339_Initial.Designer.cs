@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TahirMvc123.Models;
+using TahirMvc123;
 
 namespace TahirMvc123.Migrations
 {
     [DbContext(typeof(MvcDBContext))]
-    [Migration("20200227203514_NewUpdate")]
-    partial class NewUpdate
+    [Migration("20200228192339_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
