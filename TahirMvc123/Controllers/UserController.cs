@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Labs.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TahirMvc123.Models;
@@ -15,7 +16,6 @@ namespace TahirMvc123.Controllers
         public UserController(MvcDBContext _db)
         {
 
-
             _con = _db;
 
         }
@@ -23,11 +23,6 @@ namespace TahirMvc123.Controllers
         {
             return View();
         }
-
-
-
-
-
 
         public ActionResult Login()
         {
@@ -70,8 +65,7 @@ namespace TahirMvc123.Controllers
 
         public ActionResult Registration()
         {
-             
-               
+              
             return View();
         }
 
@@ -82,6 +76,11 @@ namespace TahirMvc123.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(user.Password) == false)
+                {
+                    user.HashedPassword = SecurePasswordHasher.Hash(user.Password);
+                }
+
                 // TODO: Add insert logic here
                 user.Date = DateTime.Now;
                 _con.User.Add(user);
