@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,21 +16,17 @@ namespace TahirMvc123.Controllers
 
         public FamilyController(MvcDBContext _db)
         {
-
-
             _con = _db;
-
         }
+
+        [Authorize]
         public IActionResult Index()
         {
             var family = _con.Family
         .Include(c => c.Cast).AsNoTracking().ToList();
 
-
             return View(family);
         }
-
-
 
         public ActionResult Create()
         {
@@ -94,21 +91,15 @@ namespace TahirMvc123.Controllers
             {
 
             }
-            Family fms= _con.Family.Find(id);
+            Family fms = _con.Family.Find(id);
             if (fms == null)
             {
-
-
-
-
+                 
             }
             ViewBag.Familylist2 = Familylist2;
             return View(fms);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Family employee)
@@ -121,6 +112,7 @@ namespace TahirMvc123.Controllers
             }
             return View(employee);
         }
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -128,11 +120,11 @@ namespace TahirMvc123.Controllers
 
             }
 
-
             Family family1 = _con.Family.Include(c => c.Cast).Where(x => x.Id == id).FirstOrDefault();
             if (family1 == null)
             {
             }
+
             return View(family1);
         }
 

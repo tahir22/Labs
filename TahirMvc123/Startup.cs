@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,29 +14,28 @@ using TahirMvc123.Models;
 namespace TahirMvc123
 {
     public class Startup
-    {
-        //public Startup(IConfiguration configuration)
-        //{
-        //    Configuration = configuration;
-        //}
-
-        //public IConfiguration Configuration { get; }
+    { 
         public Startup(IConfiguration configuration)
         {
-            _config = configuration;
+            Configuration = configuration;
         }
 
-        public IConfiguration _config { get; }
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             // MSSQL server
             services.AddDbContext<MvcDBContext>(options =>
-               options.UseSqlServer(_config["ConnectionStrings:DefaultConnection"]));
+               options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             //// #Injection
             //services.AddTransient<IBookService, BookService>();
-            //services.AddTransient<IBookRepo, BookRepo>();
+            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(options =>
+             {
+                 options.LoginPath = "/user/login";
+             });
 
             services.AddControllersWithViews();
         }
@@ -51,12 +51,12 @@ namespace TahirMvc123
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles();
 
+            app.UseStaticFiles(); 
             app.UseRouting();
 
-            app.UseAuthorization();
-
+            app.UseAuthentication();
+            app.UseAuthorization(); 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

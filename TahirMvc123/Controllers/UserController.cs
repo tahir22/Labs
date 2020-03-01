@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Labs.Shared;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TahirMvc123.Models;
@@ -24,6 +27,7 @@ namespace TahirMvc123.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Login()
         {
             ViewBag.msg = TempData["Msg"];
@@ -32,10 +36,8 @@ namespace TahirMvc123.Controllers
             return View();
         }
 
-        // POST: Vlilage/Create
         [HttpPost]
-
-        public ActionResult Login(User user)
+        public async Task<ActionResult> LoginAsync(User user)
         {
             try
             {
@@ -44,6 +46,8 @@ namespace TahirMvc123.Controllers
                 var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
                if( checkUser !=null )
                 {
+                    await CreateAuthenticationCookie(user);
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -53,7 +57,6 @@ namespace TahirMvc123.Controllers
              
                     return RedirectToAction("Login");
                 }
-
                
             }
             catch
@@ -69,9 +72,7 @@ namespace TahirMvc123.Controllers
             return View();
         }
 
-        // POST: Vlilage/Create
         [HttpPost]
-
         public ActionResult Registration(User user)
         {
             try
@@ -93,6 +94,42 @@ namespace TahirMvc123.Controllers
             }
         }
 
+        public async Task CreateAuthenticationCookie(User user)
+        {
+            var claims = new List<Claim>
+            { 
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, "Administrator"),
+            };
 
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                //AllowRefresh = <bool>, 
+
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                //IsPersistent = true,
+                //IssuedUtc = <DateTimeOffset>,
+                // The time at which the authentication ticket was issued.
+
+              //  RedirectUri = "/home/index"
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+        }
+
+        [HttpGet("user/logout")]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+
+            return RedirectToAction(nameof(Login));
+        }
     }
 }
