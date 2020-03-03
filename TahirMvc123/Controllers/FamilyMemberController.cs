@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,12 @@ using TahirMvc123.Models;
 
 namespace TahirMvc123.Controllers
 {
+
+   [Authorize]
+
     public class FamilyMemberController : Controller
     {
-
+       
         private readonly MvcDBContext _con;
 
         public FamilyMemberController(MvcDBContext _db)
@@ -83,29 +87,14 @@ namespace TahirMvc123.Controllers
         {
             try
             {
-                try
-                { // TODO: Add insert logic here
+             // TODO: Add insert logic here
                   //cast.Date = DateTime.Now;
                     _con.FamilyMember.Add(fmlyy);
                     _con.SaveChanges();
                     TempData["msg"] = "Save successfully";
                     TempData["type"] = 1;
                     return RedirectToAction(nameof(Index));
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                        }
-                    }
-
-
-                    return RedirectToAction(nameof(Index));
-                }
-
+                
 
 
         }
@@ -204,6 +193,70 @@ namespace TahirMvc123.Controllers
             _con.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
+
+
+        public ActionResult CreateAll()
+        {
+            List<SelectListItem> Familylist = new List<SelectListItem>();
+            List<SelectListItem> parentList = new List<SelectListItem>();
+
+            var Family = _con.Family.ToList();
+            var parentLists = _con.FamilyMember.ToList();
+
+            Familylist.Add(new SelectListItem() { Text = "Select", Value = "" });
+            foreach (var item in Family)
+            {
+                Familylist.Add(new SelectListItem() { Text = item.FamilyName.ToString(), Value = item.Id.ToString() });
+            }
+            parentList.Add(new SelectListItem() { Text = "Select", Value = "" });
+            foreach (var itemm in parentLists)
+            {
+                parentList.Add(new SelectListItem() { Text = itemm.MemberName.ToString(), Value = itemm.Id.ToString() });
+            }
+            ViewBag.parentid = parentList;
+            ViewBag.Familylist = Familylist;
+            return View();
+        }
+
+        // POST: Vlilage/Create
+        [HttpPost]
+
+        public ActionResult CreateAll(FamilyMember fmlyy)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+                //cast.Date = DateTime.Now;
+                _con.FamilyMember.Add(fmlyy);
+                _con.SaveChanges();
+                TempData["msg"] = "Save successfully";
+                TempData["type"] = 1;
+                return RedirectToAction(nameof(Index));
+
+
+
+            }
+            catch
+            {
+
+
+
+
+
+                TempData["msg"] = "Not Save  successfully ";
+                TempData["type"] = 0;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+
+
+
+
+
 
     }
 }

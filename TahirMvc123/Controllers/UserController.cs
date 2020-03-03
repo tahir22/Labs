@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TahirMvc123.Models;
 
 namespace TahirMvc123.Controllers
 {
+   [AllowAnonymous]
     public class UserController : Controller
     {
         private readonly MvcDBContext _con;
@@ -49,6 +51,11 @@ namespace TahirMvc123.Controllers
                 var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
                if( checkUser !=null )
                 {
+
+
+
+
+ 
                     return RedirectToAction("Index", "Home");
                 }
                 else

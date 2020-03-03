@@ -12,5 +12,6 @@ namespace TahirMvc123.Models
         public string Password { get; set; }
         public DateTime? Date { get; set; }
         public bool IsActive { get; set; }
+        public virtual ICollection<UesrRole> UesrRoles { get; set; }
     }
 }
