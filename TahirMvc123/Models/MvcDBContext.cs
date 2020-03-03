@@ -19,6 +19,8 @@ namespace TahirMvc123
         public DbSet<Family> Family { get; set; }
         public DbSet<FamilyMember> FamilyMember { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

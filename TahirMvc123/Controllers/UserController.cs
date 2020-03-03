@@ -44,7 +44,7 @@ namespace TahirMvc123.Controllers
                 // TODO: Add insert logic here
 
                 var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
-               if( checkUser !=null )
+                if (checkUser != null)
                 {
                     await CreateAuthenticationCookie(user);
 
@@ -54,21 +54,21 @@ namespace TahirMvc123.Controllers
                 {
                     TempData["msg"] = "Email Or password invalid .....!!!!! please enter correct password";
                     TempData["type"] = 0;
-             
+
                     return RedirectToAction("Login");
                 }
-               
+
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                throw;
             }
         }
 
 
         public ActionResult Registration()
         {
-              
+
             return View();
         }
 
@@ -97,11 +97,16 @@ namespace TahirMvc123.Controllers
         public async Task CreateAuthenticationCookie(User user)
         {
             var claims = new List<Claim>
-            { 
+            {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, "Administrator"),
+               // new Claim(ClaimTypes.Role, "Admin"), 
             };
+
+            if (user.Email.ToLower().Contains("admin"))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -114,7 +119,7 @@ namespace TahirMvc123.Controllers
                 //IssuedUtc = <DateTimeOffset>,
                 // The time at which the authentication ticket was issued.
 
-              //  RedirectUri = "/home/index"
+                //  RedirectUri = "/home/index"
             };
 
             await HttpContext.SignInAsync(
@@ -130,6 +135,12 @@ namespace TahirMvc123.Controllers
 
 
             return RedirectToAction(nameof(Login));
+        }
+
+        [HttpGet("user/accessdenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
