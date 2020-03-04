@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,7 +33,7 @@ namespace TahirMvc123.Controllers
 
 
 
-
+        [HttpGet]
         public ActionResult Login()
         {
             ViewBag.msg = TempData["Msg"];
@@ -42,7 +45,8 @@ namespace TahirMvc123.Controllers
         // POST: Vlilage/Create
         [HttpPost]
 
-        public ActionResult Login(User user)
+        [HttpPost]
+        public async Task<ActionResult> Login(User user)
         {
             try
             {
@@ -51,11 +55,11 @@ namespace TahirMvc123.Controllers
                 var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
                if( checkUser !=null )
                 {
+                    await CreateAuthenticationCookie(user);
 
 
 
 
- 
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -101,6 +105,53 @@ namespace TahirMvc123.Controllers
             }
         }
 
+        public async Task CreateAuthenticationCookie(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+               // new Claim(ClaimTypes.Role, "Admin"), 
+            };
 
+            if (user.Email.ToLower().Contains("safi16619@gmail.com"))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                //AllowRefresh = <bool>, 
+
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                //IsPersistent = true,
+                //IssuedUtc = <DateTimeOffset>,
+                // The time at which the authentication ticket was issued.
+
+                //  RedirectUri = "/home/index"
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+        }
+
+        [HttpGet("user/logout")]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+
+            return RedirectToAction(nameof(Login));
+        }
+
+        [HttpGet("user/accessdenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

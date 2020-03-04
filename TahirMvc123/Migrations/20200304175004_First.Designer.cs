@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TahirMvc123;
+using TahirMvc123.Models;
 
 namespace TahirMvc123.Migrations
 {
     [DbContext(typeof(MvcDBContext))]
-    [Migration("20200303190619_addRolee")]
-    partial class addRolee
+    [Migration("20200304175004_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,40 +131,10 @@ namespace TahirMvc123.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("TahirMvc123.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HashedPassword")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("TahirMvc123.Models.UserRole", b =>
+            modelBuilder.Entity("TahirMvc123.Models.UesrRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,7 +153,34 @@ namespace TahirMvc123.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UesrRole");
+                });
+
+            modelBuilder.Entity("TahirMvc123.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("TahirMvc123.Models.Vlilage", b =>
@@ -235,16 +232,16 @@ namespace TahirMvc123.Migrations
                         .HasForeignKey("ParentId");
                 });
 
-            modelBuilder.Entity("TahirMvc123.Models.UserRole", b =>
+            modelBuilder.Entity("TahirMvc123.Models.UesrRole", b =>
                 {
-                    b.HasOne("TahirMvc123.Models.Role", "Role")
-                        .WithMany()
+                    b.HasOne("TahirMvc123.Models.Role", "Roles")
+                        .WithMany("UesrRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TahirMvc123.Models.User", "User")
-                        .WithMany()
+                    b.HasOne("TahirMvc123.Models.User", "Users")
+                        .WithMany("UesrRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

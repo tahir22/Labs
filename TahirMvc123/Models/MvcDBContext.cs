@@ -24,10 +24,10 @@ namespace TahirMvc123.Models
         public DbSet<Role> Role { get; set; }
         public DbSet<UesrRole> UesrRole { get; set; }
          
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
+        //protected override void OnModelCreating(ModelBuilder builder)E:\ProjectNew2019\AllProject2020\Labs\TahirMvc123\Models\Role.cs
+        //{
+        //    base.OnModelCreating(builder);
+        //}
 
 
        

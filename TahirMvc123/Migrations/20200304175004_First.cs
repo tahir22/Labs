@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TahirMvc123.Migrations
 {
-    public partial class NewUpdate : Migration
+    public partial class First : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,19 @@ namespace TahirMvc123.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,6 +63,32 @@ namespace TahirMvc123.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vlilage", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UesrRole",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UesrRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UesrRole_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UesrRole_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +182,16 @@ namespace TahirMvc123.Migrations
                 name: "IX_FamilyMember_ParentId",
                 table: "FamilyMember",
                 column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UesrRole_RoleId",
+                table: "UesrRole",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UesrRole_UserId",
+                table: "UesrRole",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -154,10 +203,16 @@ namespace TahirMvc123.Migrations
                 name: "FamilyMember");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "UesrRole");
 
             migrationBuilder.DropTable(
                 name: "Family");
+
+            migrationBuilder.DropTable(
+                name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Cast");

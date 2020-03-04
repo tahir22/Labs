@@ -26,6 +26,7 @@ namespace TahirMvc123.Controllers
             _con = _db;
 
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
 
