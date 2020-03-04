@@ -22,6 +22,8 @@ namespace TahirMvc123.Controllers
             _con = _db;
 
         }
+
+        [Authorize]
         public IActionResult Index()
         {
             var family = _con.Family

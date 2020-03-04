@@ -42,15 +42,22 @@ namespace TahirMvc123
             //services.AddTransient<IBookRepo, BookRepo>();
 
 
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(options =>
+            //    {
+
+            //        options.LoginPath = "/user/login";
+
+            //    });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/user/login";
+               // options.AccessDeniedPath = "/user/accessdenied";
+            });
 
-                    options.LoginPath = "/user/login";
 
-                });
 
-          
             //services.AddMvc(options =>
             //{
             //    options.Filters.Add(new RequireHttpsAttribute());
@@ -77,12 +84,9 @@ namespace TahirMvc123
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
-
             app.UseAuthentication();
             app.UseAuthorization();
-          
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

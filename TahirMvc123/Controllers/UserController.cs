@@ -24,6 +24,7 @@ namespace TahirMvc123.Controllers
             _con = _db;
 
         }
+
         public IActionResult Index()
         {
             return View();
@@ -54,8 +55,8 @@ namespace TahirMvc123.Controllers
 
                 var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
                if( checkUser !=null )
-                {
-                    await CreateAuthenticationCookie(user);
+                { int userid = checkUser.Id;
+                    await CreateAuthenticationCookie(user , userid);
 
 
 
@@ -105,7 +106,7 @@ namespace TahirMvc123.Controllers
             }
         }
 
-        public async Task CreateAuthenticationCookie(User user)
+        public async Task CreateAuthenticationCookie(User user ,int userid)
         {
             var claims = new List<Claim>
             {
@@ -114,11 +115,26 @@ namespace TahirMvc123.Controllers
                // new Claim(ClaimTypes.Role, "Admin"), 
             };
 
-            if (user.Email.ToLower().Contains("safi16619@gmail.com"))
+            //if (user.Email.ToLower().Contains("admin"))
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            //}
+
+            var checkuserRole = (from ur in _con.UesrRole
+                                 join r in _con.Role on ur.RoleId equals r.Id
+                                 join u in _con.User on ur.UserId equals u.Id
+                                 where ur.UserId==userid select r.Name).ToList();
+
+
+       
+            foreach (var item in checkuserRole)
             {
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim(ClaimTypes.Role, item));
             }
 
+
+
+           
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
