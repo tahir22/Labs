@@ -17,10 +17,8 @@ namespace TahirMvc123.Controllers
         private readonly MvcDBContext _con;
 
         public UserController(MvcDBContext _db)
-        {
-
-            _con = _db;
-
+        { 
+            _con = _db; 
         }
         public IActionResult Index()
         {
@@ -96,6 +94,46 @@ namespace TahirMvc123.Controllers
 
         public async Task CreateAuthenticationCookie(User user)
         {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+               // new Claim(ClaimTypes.Role, "Admin"), 
+            };
+
+            //if (user.Email.ToLower().Contains("admin"))
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            //}
+
+            var checkuserRole = (from ur in _con.UserRoles
+                                 join r in _con.Roles on ur.RoleId equals r.Id
+                                 join u in _con.User on ur.UserId equals u.Id
+
+                                 where ur.UserId == user.Id
+                                 select r).ToList();
+
+
+            List<RoleClaim> RoleClaimss = new List<RoleClaim>();
+
+            foreach (var item in checkuserRole)
+            {
+                var crRole2s = (from rr in _con.Roles
+                                join cur in _con.RoleClaims on rr.Id equals cur.RoleId
+                                where cur.RoleId == item.Id
+                                select cur).ToList();
+
+                RoleClaimss.AddRange(crRole2s);
+                //var crRole = _con.Role.Include(x => x.Userclaims).Select(c=>c.Userclaims).ToList();
+
+            }
+            //RoleClaimss = RoleClaimss.Distinct().ToList();
+            foreach (var rol in RoleClaimss)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol.UserclaimsValues));
+            }
+
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
