@@ -19,7 +19,7 @@ namespace TahirMvc123.Controllers
             _con = _db;
         }
 
-        [Authorize]
+        [Authorize(Policy = "grade1")]
         public IActionResult Index()
         {
             var family = _con.Family

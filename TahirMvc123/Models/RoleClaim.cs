@@ -8,6 +8,7 @@ namespace TahirMvc123.Models
 {
     public class RoleClaim : Entity
     {
+        public string Type { get; set; }
         public string Value { get; set; }
 
         public int RoleId { get; set; }
