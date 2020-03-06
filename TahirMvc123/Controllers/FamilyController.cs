@@ -125,6 +125,8 @@ namespace TahirMvc123.Controllers
             }
             return View(employee);
         }
+
+        [HttpPost, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

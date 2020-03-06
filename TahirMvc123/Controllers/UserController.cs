@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TahirMvc123.Models;
 
 namespace TahirMvc123.Controllers
@@ -123,18 +124,32 @@ namespace TahirMvc123.Controllers
             var checkuserRole = (from ur in _con.UesrRole
                                  join r in _con.Role on ur.RoleId equals r.Id
                                  join u in _con.User on ur.UserId equals u.Id
-                                 where ur.UserId==userid select r.Name).ToList();
+                                
+                                 where ur.UserId==userid select r).ToList();
 
 
-       
+            List<Userclaims> RoleClaimss = new List<Userclaims>();
+
             foreach (var item in checkuserRole)
             {
-                claims.Add(new Claim(ClaimTypes.Role, item));
+                var crRole2s= (from rr in _con.Role
+                              join cur in _con.Userclaims on rr.Id equals cur.RoleID
+                               where cur.RoleID == item.Id
+                               select cur).ToList();
+
+                RoleClaimss.AddRange(crRole2s);
+                //var crRole = _con.Role.Include(x => x.Userclaims).Select(c=>c.Userclaims).ToList();
+
+            }
+            //RoleClaimss = RoleClaimss.Distinct().ToList();
+            foreach (var rol in RoleClaimss)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol.UserclaimsValues));
+
+
             }
 
 
-
-           
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties

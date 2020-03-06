@@ -9,5 +9,6 @@ namespace TahirMvc123.Models
     {
         public string   Name { get; set; }
         public virtual ICollection<UesrRole> UesrRoles { get; set; }
+        public virtual ICollection<Userclaims> Userclaims { get; set; }
     }
 }

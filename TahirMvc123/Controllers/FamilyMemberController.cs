@@ -26,7 +26,7 @@ namespace TahirMvc123.Controllers
             _con = _db;
 
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "View")]
         public IActionResult Index()
         {
 
@@ -57,7 +57,7 @@ namespace TahirMvc123.Controllers
         }
 
 
-
+        [Authorize(Roles = "Create")]
         public ActionResult Create()
         {
             List<SelectListItem> Familylist = new List<SelectListItem>();
@@ -83,7 +83,8 @@ namespace TahirMvc123.Controllers
 
         // POST: Vlilage/Create
         [HttpPost]
-
+     
+        [Authorize(Roles = "Create")]
         public ActionResult Create(FamilyMember fmlyy)
         {
             try
@@ -169,6 +170,8 @@ namespace TahirMvc123.Controllers
             }
             return View(employee);
         }
+
+        [Authorize(Roles = "Delete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

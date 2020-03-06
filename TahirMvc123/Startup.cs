@@ -53,7 +53,7 @@ namespace TahirMvc123
             .AddCookie(options =>
             {
                 options.LoginPath = "/user/login";
-               // options.AccessDeniedPath = "/user/accessdenied";
+                options.AccessDeniedPath = "/user/accessdenied";
             });
 
 

@@ -23,16 +23,16 @@ namespace TahirMvc123.Models
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<UesrRole> UesrRole { get; set; }
-         
+        public DbSet<Userclaims> Userclaims { get; set; }
         //protected override void OnModelCreating(ModelBuilder builder)E:\ProjectNew2019\AllProject2020\Labs\TahirMvc123\Models\Role.cs
         //{
         //    base.OnModelCreating(builder);
         //}
 
 
-       
 
-     
 
-}
+
+
+    }
 }
