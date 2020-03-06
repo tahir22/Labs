@@ -21,6 +21,7 @@ namespace TahirMvc123
         public DbSet<User> User { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<RoleClaim> RoleClaims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

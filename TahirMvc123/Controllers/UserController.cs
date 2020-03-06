@@ -17,10 +17,8 @@ namespace TahirMvc123.Controllers
         private readonly MvcDBContext _con;
 
         public UserController(MvcDBContext _db)
-        {
-
-            _con = _db;
-
+        { 
+            _con = _db; 
         }
         public IActionResult Index()
         {
@@ -46,7 +44,7 @@ namespace TahirMvc123.Controllers
                 var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
                 if (checkUser != null)
                 {
-                    await CreateAuthenticationCookie(user);
+                    await CreateAuthenticationCookie(checkUser);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -100,39 +98,48 @@ namespace TahirMvc123.Controllers
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
-               // new Claim(ClaimTypes.Role, "Admin"), 
             };
 
-            if (user.Email.ToLower().Contains("admin"))
+            var userRoles = (from ur in _con.UserRoles
+                                 join r in _con.Roles on ur.RoleId equals r.Id
+                                 join u in _con.User on ur.UserId equals u.Id
+
+                                 where ur.UserId == user.Id
+                                 select r).ToList();
+
+            List<RoleClaim> RoleClaims = new List<RoleClaim>();
+
+            foreach (var item in userRoles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                var crRole2s = (from rr in _con.Roles
+                                join cur in _con.RoleClaims on rr.Id equals cur.RoleId
+                                where cur.RoleId == item.Id
+                                select cur).ToList();
+
+                RoleClaims.AddRange(crRole2s);
+            }
+
+            foreach (var rol in RoleClaims)
+            {
+                claims.Add(new Claim("permission", rol.Value));
+            }
+             
+            foreach (var rol in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol.Name));
             }
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var authProperties = new AuthenticationProperties
-            {
-                //AllowRefresh = <bool>, 
-
-                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                //IsPersistent = true,
-                //IssuedUtc = <DateTimeOffset>,
-                // The time at which the authentication ticket was issued.
-
-                //  RedirectUri = "/home/index"
-            };
-
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+                new ClaimsPrincipal(claimsIdentity));
         }
 
         [HttpGet("user/logout")]
         public async Task<IActionResult> LogoutAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
 
             return RedirectToAction(nameof(Login));
         }
