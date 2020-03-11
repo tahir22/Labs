@@ -6,31 +6,18 @@
 
 <h1>CreateR</h1>
 
-@foreach (var item in Model)
-{
-
-    <div class="row">
+<div class="row">
+    @foreach (var item in Model)
+    {
         <div class="col-md-2 col-lg-2 col-sm-2">
             @Html.DisplayFor(modelItem => item.Name)
         </div>
         <div class="col-md-2 col-lg-2 col-sm-2">
-            @Html.CheckBox("gg", new { @class = "fff"  ,  @Value=item.Id})
+            @*@Html.CheckBox("gg", new { @class = "fff", @Value = item.Id })*@
+            <input type="checkbox" value="@item.Id" class="cb" />
         </div>
-
-    </div>
-
-
-}
-
-
-
-
-
-
-
-
-
-
+    }
+</div>
 
 
 
@@ -44,22 +31,31 @@
 
 <script>
     $(document).ready(function () {
-        debugger
-
+        // debugger;
 
     });
+
+
     $("#btnCreate").click(function () {
-        debugger
-        $('.fff').val();
+        var arrayToList = [];
+        $("input:checkbox:checked").each((ind, item) => {
+            //console.log(ind, item);
+            arrayToList.push(+item.value);
+        });
 
+        console.log(arrayToList);
 
-        if ($('#check_id').is(":checked")) {
+        $.ajax({
+            data: { roles: arrayToList },
+            method: "POST",
+            url: "AssignRoles",
+            success: function (result) {
+                console.log("success");
+            },
+            error: function () {
 
-        }
-
+            }
+        });
     });
-
-
-
 
 </script>

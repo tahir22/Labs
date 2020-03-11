@@ -61,11 +61,19 @@ namespace TahirMvc123.Controllers
             var rolee = _con.Roles.ToList();
             return View(rolee);
         }
-        [HttpPost]
-        public IActionResult CreateR(int? id, int[] ids)
-        {
-            return View();
 
+        [HttpPost]
+        public IActionResult CreateR(int[] roles)
+        {
+            var roleList  = roles;
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult AssignRoles(int[] roles)
+        {
+            var roleList  = roles;
+            return View();
         }
 
     }
