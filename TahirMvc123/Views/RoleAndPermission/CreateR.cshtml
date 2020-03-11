@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TahirMvc123.Models.Role>
+@{
+    ViewData["Title"] = "CreateR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CreateR</h1>
+
+@foreach (var item in Model)
+{
+
+    <div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2">
+            @Html.DisplayFor(modelItem => item.Name)
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-2">
+            @Html.CheckBox("gg", new { @class = "fff"  ,  @Value=item.Id})
+        </div>
+
+    </div>
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+
+</div>
+<br />
+
+
+<button id="btnCreate" class="btn btn-secondary btn-sm">Submit</button>
+
+<script>
+    $(document).ready(function () {
+        debugger
+
+
+    });
+    $("#btnCreate").click(function () {
+        debugger
+        $('.fff').val();
+
+
+        if ($('#check_id').is(":checked")) {
+
+        }
+
+    });
+
+
+
+
+</script>

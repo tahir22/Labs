@@ -10,8 +10,8 @@ using TahirMvc123;
 namespace TahirMvc123.Migrations
 {
     [DbContext(typeof(MvcDBContext))]
-    [Migration("20200306172106_RoleClaimAdded")]
-    partial class RoleClaimAdded
+    [Migration("20200310173221_newproject")]
+    partial class newproject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,6 +143,9 @@ namespace TahirMvc123.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

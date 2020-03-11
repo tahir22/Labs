@@ -197,6 +197,19 @@
                 </div>
             </li>
 
+            <!-- 7 dop down -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseT6" aria-expanded="true" aria-controls="collapseT6">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Role And Permission</span>
+                </a>
+                <div id="collapseT6" class="collapse" aria-labelledby="headingTwo6" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="RoleAndPermission" asp-action="Index"> List Role</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="RoleAndPermission" asp-action="CreateRole"> Create Role</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -224,7 +237,7 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="logout">LogOut</a>
 
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Registration">User Registration</a>
