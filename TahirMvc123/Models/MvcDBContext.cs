@@ -26,6 +26,14 @@ namespace TahirMvc123
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-        }
+
+         
+            builder.Entity<UserRole>().HasIndex(x => new {
+                x.UserId,
+                x.RoleId
+            }).IsUnique();
+        } 
+
+    
     }
 }

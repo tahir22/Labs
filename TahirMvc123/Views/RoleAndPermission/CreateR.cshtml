@@ -7,12 +7,16 @@
 <h1>CreateR</h1>
 
 <div class="row">
+
+    <div class="col-md-3 col-lg-3 col-sm-4">
+        <span>User</span>   @Html.DropDownList("UserId", (IEnumerable <SelectListItem>)ViewBag.users , new  {@class="form-control" })
+    </div>
     @foreach (var item in Model)
     {
-        <div class="col-md-2 col-lg-2 col-sm-2">
-            @Html.DisplayFor(modelItem => item.Name)
+        <div class="col-md-1 col-lg-1 col-sm-1">
+            @Html.DisplayFor(modelItem => item.Name , new  { })
         </div>
-        <div class="col-md-2 col-lg-2 col-sm-2">
+        <div class="col-md-1 col-lg-1 col-sm-1">
             @*@Html.CheckBox("gg", new { @class = "fff", @Value = item.Id })*@
             <input type="checkbox" value="@item.Id" class="cb" />
         </div>
@@ -31,10 +35,16 @@
 
 <script>
     $(document).ready(function () {
-        // debugger;
-
+      debugger;
+         var Message = '@ViewBag.msg';
+        var msgType = '@ViewBag.type';
+        var Viewpath = "";
+        if (Message.length > 0) {
+            AlertMessage(Message, msgType, Viewpath);
+        }
+        
     });
-
+    debugger;
 
     $("#btnCreate").click(function () {
         var arrayToList = [];
@@ -42,20 +52,40 @@
             //console.log(ind, item);
             arrayToList.push(+item.value);
         });
-
-        console.log(arrayToList);
+        var userid = $("#UserId").val();
+        //console.log(arrayToList);
 
         $.ajax({
-            data: { roles: arrayToList },
+            data: { roles: arrayToList, userid:userid},
             method: "POST",
             url: "AssignRoles",
             success: function (result) {
-                console.log("success");
+                 
             },
             error: function () {
 
             }
         });
     });
+     function AlertMessage(Message, Messagetype, Viewpath) {
 
+        if (Messagetype == '1') {
+            swal({
+                title: "Congratulations!",
+                text: Message,
+                type: "success"
+            },
+            function () {
+                location.href = Viewpath;
+            }
+            );
+        }
+        else {
+            swal(
+                "Oops!",
+               Message,
+               "error"
+                );
+        }
+    }
 </script>
