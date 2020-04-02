@@ -1,9 +1,12 @@
 ﻿using Labs.Shared;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -33,16 +36,19 @@ namespace TahirMvc123.Api
 
         // users/login
         [HttpPost("login")]
-        public async Task<ActionResult> LoginAsync(User user)
+        public async Task<ActionResult> LoginAsync([FromBody] User user)
         {
             try
             {
                 // TODO: Add insert logic here
-                var checkUser = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
-                if (checkUser != null)
+                var userInDb = _con.User.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
+                if (userInDb != null)
                 {
-                    await CreateAuthenticationCookie(checkUser);
-                    return Ok();
+                    // await CreateAuthenticationCookie(userInDb);
+
+                    // create & return token
+                    var token = await BuildToken(userInDb);
+                    return Ok(token);
                 }
                 else
                 {
@@ -137,5 +143,50 @@ namespace TahirMvc123.Api
                 new ClaimsPrincipal(claimsIdentity));
         }
 
+
+        // JWT ===================================== JWT ================
+
+        private async Task<string> BuildToken(User user)
+        {
+            var claims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, user.UserName),
+                };
+
+            // fetch user's roles
+            // #. admin, employee, basic-user
+
+            // fetch claims for each role
+            // #. create, update, delete, grade-1, everything
+
+            // add in claims collections.
+            // #. calims << create, update, delete, grade-1, everything
+            //claims.Add(new Claim(Constants.ClaimType, "create"));
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-name-is-khan-and-i-am-not-"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+              "labs-i",
+              "labs-a",
+              claims,
+              expires: DateTime.Now.AddDays(1),
+              signingCredentials: creds);
+
+            string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return tokenString;
+        }
+
+
+
+        // ================ method ==========
+        [HttpGet("hello"), Authorize]
+        public string Hello()
+        {
+            return "heelooo";
+        }
     }
 }
