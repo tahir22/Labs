@@ -41,7 +41,12 @@ namespace TahirMvc123
             services.AddAuthorization(auth =>
             {
                 // Users 
-                auth.AddPolicy("grade1", policy => policy.RequireClaim("permission", "grade-1"));
+                auth.AddPolicy(AppConstants.Grade1, policy => 
+                policy.RequireRole("admin")
+                .RequireClaim(AppConstants.Permission, new string[] {"inv-delete", "inv-update" }) 
+                //policy.RequireClaim(AppConstants.Permission, "grade-1")
+                );
+
                 auth.AddPolicy("create", policy => policy.RequireClaim("permission", "create"));
                 auth.AddPolicy("update", policy => policy.RequireClaim("permission", "update"));
                 auth.AddPolicy("delete", policy => policy.RequireClaim("permission", "delete"));

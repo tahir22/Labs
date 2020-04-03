@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Labs.Shared;
@@ -15,6 +16,7 @@ namespace TahirMvc123.Controllers
     public class UserController : Controller
     {
         private readonly MvcDBContext _con;
+        private static Random random = new Random();
 
         public UserController(MvcDBContext _db)
         { 
@@ -63,7 +65,61 @@ namespace TahirMvc123.Controllers
             }
         }
 
+        //public async Task Send2FACode(User user)
+        //{
+        //    // var mobilecode = GetRandomCode();
+        //    //var code = Guid.NewGuid().ToString();
+        //     var code =  RandomNumber(6);
+        //    // get user from db.. user >
+        //    user.EmailVerificationCode = code;
+        //    var updatedUser = _con.User.FirstOrDefault();
+        //     updatedUser.EmailVerificationCode = user.EmailVerificationCode;
 
+        //    await _con.SaveChangesAsync();
+
+        //    //var client = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587)
+        //    //{
+        //    //    Credentials = new System.Net.NetworkCredential("mhd.tahir0023@gmail.com", "@Silakhan#8421724#"),
+        //    //    EnableSsl = true
+        //    //};
+        //    //client.Send(updatedUser.Email, "mhd.tahir0023@gmail.com", "VeryCode", code);
+        //    //Console.WriteLine("Sent");
+        //    //Console.ReadLine();
+        //    //string codee= "<a href="Verify2FACode?code=  "> Verify </a>" ;
+
+
+
+        //    string email = updatedUser.Email;
+        //    //string filename = dlg.FileName;
+
+
+        //    MailMessage mail = new MailMessage();
+        //    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+        //    mail.From = new MailAddress("mhd.tahir0023@gmail.com");
+        //    mail.To.Add(email);
+        //    mail.Subject = "verification code";
+        //    mail.Body = "your verification code : " + code;
+        //    //Attachment attachment = new Attachment(filename);
+        //    //mail.Attachments.Add(attachment);
+
+        //    SmtpServer.Port = 25;
+        //    SmtpServer.Credentials = new System.Net.NetworkCredential("mhd.tahir0023@gmail.com", "@Silakhan#8421724#");
+        //     SmtpServer.EnableSsl = true;
+
+        //     SmtpServer.Send(mail);
+
+
+        //    // send code in email/mobile number..
+
+        //}
+
+        public static   string RandomNumber(int length)
+        {
+            const string chars = "0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public ActionResult Registration()
         {
 
@@ -121,7 +177,10 @@ namespace TahirMvc123.Controllers
 
             foreach (var rol in RoleClaims)
             {
-                claims.Add(new Claim("permission", rol.Value));
+                if (string.IsNullOrWhiteSpace(rol.Value) == false)
+                {
+                    claims.Add(new Claim("permission", rol.Value));
+                }
             }
              
             foreach (var rol in userRoles)
@@ -147,12 +206,28 @@ namespace TahirMvc123.Controllers
         [HttpGet("user/accessdenied")]
         public IActionResult AccessDenied()
         {
+            string s = "tahir";
+            string m = "1,8,6,4,2,9,7";
+            //string m2 = "123654";
+            //string m3 = "0123456789";
+            //string m4 = "ff55612365";
+
+            //bool g = m.PhoneNoValidation();
+         string g = m.TSortString();
+            //bool g1 = m2.PhoneNoValidation();s
+            //bool g2 = m3.PhoneNoValidation();
+            //bool g3 = m4.PhoneNoValidation();
+
+           var yyy= _con.Customers.ToList().Where(x=>x.Name.TSortString()==g).ToList();
+            var ss =s.stringlenght();
             return View();
         }
 
 
 
-
+      
 
     }
+
+
 }

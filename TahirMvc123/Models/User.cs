@@ -11,6 +11,8 @@ namespace TahirMvc123.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string HashedPassword { get; set; }
+        //public string EmailVerificationCode { get; set; }
+        
         public DateTime? Date { get; set; }
         public bool IsActive { get; set; }
     }

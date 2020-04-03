@@ -18,7 +18,7 @@ namespace TahirMvc123.Controllers
             _con = _db;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult Index()
         {
             var Casts = _con.Cast
