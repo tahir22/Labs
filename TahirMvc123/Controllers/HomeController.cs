@@ -50,5 +50,24 @@ namespace TahirMvc123.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
+
+
+        public IActionResult Testing()
+        {
+
+            
+            int[] array1 = { 1, 5, 2, 0 };
+            int[] array12 = { 1, 5, 2, 0 ,6};
+            int[] array13 = { 1, 5, 2, 0,7,8 };
+            var a = array1.Length;
+            var b = array12.Length;
+            var c = array13.Length;
+            int[] array133 = { a, b, c };
+
+           var g= array133.Max();
+            return View();
+        
+        }
+
+        }
 }
